@@ -29,8 +29,7 @@ def homog_ageranges_2020(raw_df):
                                          raw_df.loc["35-39"] + raw_df.loc["40-44"])
     local_dataframe_2020.loc["45-64"] = (raw_df.loc["45-49"] + raw_df.loc["50-54"] +
                                          raw_df.loc["55-59"] + raw_df.loc["60-64"])
-    local_dataframe_2020.loc["55-74"] = (raw_df.loc["55-59"] + raw_df.loc["60-64"] +
-                                         raw_df.loc["65-69"] + raw_df.loc["70-74"])
+    local_dataframe_2020.loc["65-74"] = (raw_df.loc["65-69"] + raw_df.loc["70-74"])
     local_dataframe_2020.loc["75-84"] = (raw_df.loc["75-79"] + raw_df.loc["80-84"])
     local_dataframe_2020.loc["85+"] = (raw_df.loc["85-89"] + raw_df.loc["90+"])
 
@@ -103,6 +102,6 @@ frames = [dataframe_2010.T, dataframe_2011.T,
           dataframe_2019.T, dataframe_2020.T]
 
 df_2010_2020 = pd.concat(frames)
-
+print(df_2010_2020)
 df_2010_2020.plot(xlabel="Weeks ending", ylabel="Deaths", title=f"2010 - 2020 Deaths by age group (Source: ONS)")
 plt.show()
