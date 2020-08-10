@@ -3,20 +3,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales
-data_filename_2020 = "ons_data_files/publishedweek302020.xlsx"
-data_filename_2019 = ("publishedweek522019.xls", "Weekly figures 2019")
-data_filename_2018 = ("publishedweek522018withupdatedrespiratoryrow.xls", "Weekly figures 2018")
-data_filename_2017 = ("publishedweek522017.xls", "Weekly figures 2017")
-data_filename_2016 = ("publishedweek522016.xls", "Weekly figures 2016")
-data_filename_2015 = ("publishedweek2015.xls", "Weekly Figures 2015")
-data_filename_2014 = ("publishedweek2014.xls", "Weekly Figures 2014")
-data_filename_2013 = ("publishedweek2013.xls", "Weekly Figures 2013")
-data_filename_2012 = ("publishedweek2012.xls", "Weekly Figures 2012")
-data_filename_2011 = ("publishedweek2011.xls", "Weekly Figures 2011")
-data_filename_2010 = ("publishedweek2010.xls", "Weekly Figures 2010")
+
+data_path = "ons_data_files/"
+data_filename_2020 = data_path + "publishedweek302020.xlsx"
+data_filename_2019 = (data_path + "publishedweek522019.xls", "Weekly figures 2019")
+data_filename_2018 = (data_path + "publishedweek522018withupdatedrespiratoryrow.xls", "Weekly figures 2018")
+data_filename_2017 = (data_path + "publishedweek522017.xls", "Weekly figures 2017")
+data_filename_2016 = (data_path + "publishedweek522016.xls", "Weekly figures 2016")
+data_filename_2015 = (data_path + "publishedweek2015.xls", "Weekly Figures 2015")
+data_filename_2014 = (data_path + "publishedweek2014.xls", "Weekly Figures 2014")
+data_filename_2013 = (data_path + "publishedweek2013.xls", "Weekly Figures 2013")
+data_filename_2012 = (data_path + "publishedweek2012.xls", "Weekly Figures 2012")
+data_filename_2011 = (data_path + "publishedweek2011.xls", "Weekly Figures 2011")
+data_filename_2010 = (data_path + "publishedweek2010.xls", "Weekly Figures 2010")
 
 
 def get_2020(filename):
+    print(filename)
     ons_deaths_df = pd.read_excel(filename,
                                   sheet_name="Weekly figures 2020",
                                   nrows=20,
@@ -131,7 +134,7 @@ dataframe_2017 = get_data_for_year(*data_filename_2017)
 # # print(data_filename_2017)
 #
 dataframe_2016 = get_data_for_year(*data_filename_2016)
-# print(dataframe_2016)
+print(dataframe_2016)
 
 
 dataframe_2015 = get_data_for_year_201_543210(*data_filename_2015, 4, 14)
