@@ -82,18 +82,18 @@ def get_data_for_year(filename, sheetname):
     return join_clean_df(ons_deaths_columns_df, ons_deaths_df)
 
 
-def get_data_for_year_201_543210(filename, sheetname, col_skiprows, value_skips=14):
-    print(filename, sheetname)
+def get_data_for_year_201_543210(filename, sheetname, **kwargs):
+    print(filename, sheetname, kwargs)
     ons_deaths_df = pd.read_excel(filename,
                                   sheet_name=sheetname,
                                   nrows=7,
-                                  skiprows=value_skips,
+                                  skiprows=kwargs["value_skiprows"],
                                   index_col=0)
 
     ons_deaths_columns_df = pd.read_excel(filename,
                                           sheet_name=sheetname,
                                           nrows=0,
-                                          skiprows=col_skiprows,
+                                          skiprows=kwargs["col_skiprows"],
                                           index_col=0)
 
     df = pd.DataFrame(data=ons_deaths_df.values, columns=ons_deaths_columns_df.columns, index=ons_deaths_df.index)
@@ -113,63 +113,24 @@ def join_clean_df(df_cols, df_values):
     return df
 
 
-# raw_dataframe_2020 = get_2020(data_filename_2020)
-# # print(raw_dataframe_2020)
-#
 dataframe_2020 = homogenise_age_ranges_2020(get_2020(data_filename_2020))
-# # print(dataframe_2020)
-# # # data_file_name_2020.T.plot(xlabel="Weeks ending", ylabel="Deaths", title='2020, Deaths by age group (Source: ONS)')
-# # # plt.show()
-#
 dataframe_2019 = get_data_for_year(*data_filename_2019)
-# # print(data_filename_2019)
-# # # data_file_name_2019.T.plot(xlabel="Weeks ending", ylabel="Deaths", title='2019, Deaths by age group (Source: ONS)')
-# # # plt.show()
-#
 dataframe_2018 = get_data_for_year(*data_filename_2018)
-# # print(data_filename_2018)
-#
-#
 dataframe_2017 = get_data_for_year(*data_filename_2017)
-# # print(data_filename_2017)
-#
 dataframe_2016 = get_data_for_year(*data_filename_2016)
-print(dataframe_2016)
+dataframe_2015 = get_data_for_year_201_543210(*data_filename_2015, col_skiprows=4, value_skiprows=14)
+dataframe_2014 = get_data_for_year_201_543210(*data_filename_2014, col_skiprows=3, value_skiprows=14)
+dataframe_2013 = get_data_for_year_201_543210(*data_filename_2013, col_skiprows=4, value_skiprows=14)
+dataframe_2012 = get_data_for_year_201_543210(*data_filename_2012, col_skiprows=4, value_skiprows=14)
+dataframe_2011 = get_data_for_year_201_543210(*data_filename_2011, col_skiprows=4, value_skiprows=15)
+dataframe_2010 = get_data_for_year_201_543210(*data_filename_2010, col_skiprows=4, value_skiprows=14)
 
-
-dataframe_2015 = get_data_for_year_201_543210(*data_filename_2015, 4, 14)
-# print(dataframe_2015)
-# print(data_filename_2015)
-# dataframe_2015.T.plot(xlabel="Weeks ending", ylabel="Deaths", title=f"{data_filename_2015[1]}, Deaths by age group (Source: ONS)")
-# plt.show()
-#
-dataframe_2014 = get_data_for_year_201_543210(*data_filename_2014, 3, 14 )
-# print(dataframe_2014)
-
-dataframe_2013 = get_data_for_year_201_543210(*data_filename_2013, 4, 14)
-# print(dataframe_2013)
-
-dataframe_2012 = get_data_for_year_201_543210(*data_filename_2012, 4, 14)
-# print(dataframe_2012)
-
-dataframe_2011 = get_data_for_year_201_543210(*data_filename_2011, 4, 15)
-print(dataframe_2011)
-
-dataframe_2010 = get_data_for_year_201_543210(*data_filename_2010, 4, 14)
-print(dataframe_2010)
-
-frames = [dataframe_2010.T,
-          dataframe_2011.T,
-          dataframe_2012.T,
-          dataframe_2013.T,
-          dataframe_2014.T,
-          dataframe_2015.T,
-          dataframe_2016.T,
-          dataframe_2016.T,
-          dataframe_2017.T,
-          dataframe_2018.T,
-          dataframe_2019.T,
-          dataframe_2020.T]
+frames = [dataframe_2010.T, dataframe_2011.T,
+          dataframe_2012.T, dataframe_2013.T,
+          dataframe_2014.T, dataframe_2015.T,
+          dataframe_2016.T, dataframe_2016.T,
+          dataframe_2017.T, dataframe_2018.T,
+          dataframe_2019.T, dataframe_2020.T]
 
 df_2010_2020 = pd.concat(frames)
 
