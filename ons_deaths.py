@@ -37,7 +37,7 @@ def homog_ageranges_2020(raw_df):
     return local_dataframe_2020
 
 
-def get_data_for_year(filename, sheetname, **kwargs):
+def get_data_years_2016_thru_2020(filename, sheetname, **kwargs):
     print(filename, sheetname, kwargs)
 
     ons_deaths_df = pd.read_excel(filename,
@@ -54,14 +54,14 @@ def get_data_for_year(filename, sheetname, **kwargs):
                                           )
 
     df = pd.DataFrame(data=ons_deaths_df.values, columns=ons_deaths_columns_df.columns)
-    df.where(pd.notnull(df), None, inplace=True)
+    # df.where(pd.notnull(df), None, inplace=True)
     df.rename(columns={"Unnamed: 1": 'age_group'}, inplace=True)
     df.set_index('age_group', inplace=True)
     print(df)
     return df
 
 
-def get_data_for_year_201_543210(filename, sheetname, **kwargs):
+def get_data_years_2010_thru_2015(filename, sheetname, **kwargs):
     print(filename, sheetname, kwargs)
     ons_deaths_df = pd.read_excel(filename,
                                   sheet_name=sheetname,
@@ -76,23 +76,23 @@ def get_data_for_year_201_543210(filename, sheetname, **kwargs):
                                           index_col=0)
 
     df = pd.DataFrame(data=ons_deaths_df.values, columns=ons_deaths_columns_df.columns, index=ons_deaths_df.index)
-    df.where(pd.notnull(df), None, inplace=True)
+    # df.where(pd.notnull(df), None, inplace=True)
     df.index.name = "age_group"
     print(df)
     return df
 
 
-dataframe_2020 = homog_ageranges_2020(get_data_for_year(*data_filename_2020, num_value_rows=20, col_skiprows=5, value_skiprows=20))
-dataframe_2019 = get_data_for_year(*data_filename_2019, num_value_rows=7, col_skiprows=4, value_skiprows=14)
-dataframe_2018 = get_data_for_year(*data_filename_2018, num_value_rows=7, col_skiprows=4, value_skiprows=14)
-dataframe_2017 = get_data_for_year(*data_filename_2017, num_value_rows=7, col_skiprows=4, value_skiprows=14)
-dataframe_2016 = get_data_for_year(*data_filename_2016, num_value_rows=7, col_skiprows=4, value_skiprows=14)
-dataframe_2015 = get_data_for_year_201_543210(*data_filename_2015, col_skiprows=4, value_skiprows=14)
-dataframe_2014 = get_data_for_year_201_543210(*data_filename_2014, col_skiprows=3, value_skiprows=14)
-dataframe_2013 = get_data_for_year_201_543210(*data_filename_2013, col_skiprows=4, value_skiprows=14)
-dataframe_2012 = get_data_for_year_201_543210(*data_filename_2012, col_skiprows=4, value_skiprows=14)
-dataframe_2011 = get_data_for_year_201_543210(*data_filename_2011, col_skiprows=4, value_skiprows=15)
-dataframe_2010 = get_data_for_year_201_543210(*data_filename_2010, col_skiprows=4, value_skiprows=14)
+dataframe_2020 = homog_ageranges_2020(get_data_years_2016_thru_2020(*data_filename_2020, num_value_rows=20, col_skiprows=5, value_skiprows=20))
+dataframe_2019 = get_data_years_2016_thru_2020(*data_filename_2019, num_value_rows=7, col_skiprows=4, value_skiprows=14)
+dataframe_2018 = get_data_years_2016_thru_2020(*data_filename_2018, num_value_rows=7, col_skiprows=4, value_skiprows=14)
+dataframe_2017 = get_data_years_2016_thru_2020(*data_filename_2017, num_value_rows=7, col_skiprows=4, value_skiprows=14)
+dataframe_2016 = get_data_years_2016_thru_2020(*data_filename_2016, num_value_rows=7, col_skiprows=4, value_skiprows=14)
+dataframe_2015 = get_data_years_2010_thru_2015(*data_filename_2015, col_skiprows=4, value_skiprows=14)
+dataframe_2014 = get_data_years_2010_thru_2015(*data_filename_2014, col_skiprows=3, value_skiprows=14)
+dataframe_2013 = get_data_years_2010_thru_2015(*data_filename_2013, col_skiprows=4, value_skiprows=14)
+dataframe_2012 = get_data_years_2010_thru_2015(*data_filename_2012, col_skiprows=4, value_skiprows=14)
+dataframe_2011 = get_data_years_2010_thru_2015(*data_filename_2011, col_skiprows=4, value_skiprows=15)
+dataframe_2010 = get_data_years_2010_thru_2015(*data_filename_2010, col_skiprows=4, value_skiprows=14)
 
 frames = [dataframe_2010.T, dataframe_2011.T,
           dataframe_2012.T, dataframe_2013.T,
@@ -103,5 +103,8 @@ frames = [dataframe_2010.T, dataframe_2011.T,
 
 df_2010_2020 = pd.concat(frames)
 print(df_2010_2020)
-df_2010_2020.plot(xlabel="Weeks ending", ylabel="Deaths", title=f"2010 - 2020 Deaths by age group (Source: ONS)")
+df_2010_2020["sum"] = df_2010_2020.sum(axis=1, skipna=False)
+print(df_2010_2020)
+
+df_2010_2020.plot(xlabel="Dates", ylabel="Deaths", title=f"2010 - 2020 Deaths by age group (Source: ONS)")
 plt.show()
