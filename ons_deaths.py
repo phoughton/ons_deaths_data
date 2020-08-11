@@ -6,7 +6,7 @@ import matplotlib.dates as mdates
 # https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales
 
 data_path = "ons_data_files/"
-data_filename_2020 = (data_path + "publishedweek302020.xlsx", "Weekly figures 2020")
+data_filename_2020 = (data_path + "publishedweek312020.xlsx", "Weekly figures 2020")
 data_filename_2019 = (data_path + "publishedweek522019.xls", "Weekly figures 2019")
 data_filename_2018 = (data_path + "publishedweek522018withupdatedrespiratoryrow.xls", "Weekly figures 2018")
 data_filename_2017 = (data_path + "publishedweek522017.xls", "Weekly figures 2017")
@@ -108,8 +108,10 @@ df_2010_2020.plot(ax=ax)
 plt.suptitle("ONS Deaths by age group, 2010-2020, and sum of all age groups.")
 plt.title("(Sum of all age groups may differ slightly from actual total)")
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=6))
+plt.legend(loc=2, prop={'size': 7})
 
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y %b'))
 plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
 
+plt.savefig("ONS_2010_2020_deaths_by_age.png", papertype='a4')
 plt.show()
