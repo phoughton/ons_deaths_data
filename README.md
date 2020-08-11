@@ -1,6 +1,6 @@
 # ons_deaths_data
 
-Some processing and graphing scripts for [Office of National Statistics Deaths data](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales) data.
+Some processing and graphing scripts for [Office of National Statistics Deaths](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales) data.
 
 This data covers England, Wales and Northern Ireland.
 
