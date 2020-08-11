@@ -53,14 +53,11 @@ def get_data_years_2016_thru_2020(filename, sheetname, **kwargs):
                                           skiprows=kwargs["col_skiprows"],
                                           index_col=0)
     ons_deaths_columns_df.drop("Unnamed: 1", axis=1, inplace=True)
-    ons_deaths_df.reset_index()
     ons_deaths_df.set_index("Deaths by age group", inplace=True)
-    ons_deaths_df.columns = ons_deaths_columns_df.columns
-    df = ons_deaths_df
+    ons_deaths_df.columns = list(map(pd.to_datetime, ons_deaths_columns_df.columns))
+    ons_deaths_df.rename(index={"Deaths by age group": 'age_group'}, inplace=True)
 
-    df.rename(index={"Deaths by age group": 'age_group'}, inplace=True)
-
-    return df
+    return ons_deaths_df
 
 
 def get_data_years_2010_thru_2015(filename, sheetname, **kwargs):
@@ -76,16 +73,11 @@ def get_data_years_2010_thru_2015(filename, sheetname, **kwargs):
                                           nrows=0,
                                           skiprows=kwargs["col_skiprows"],
                                           index_col=0)
-    print(ons_deaths_columns_df.info())
 
-    columns_datetime = []
-    for item in ons_deaths_columns_df.columns:
-        columns_datetime.append(pd.to_datetime(item))
+    ons_deaths_df.columns = list(map(pd.to_datetime, ons_deaths_columns_df.columns))
+    ons_deaths_df.rename(index={"Deaths by age group": 'age_group'}, inplace=True)
 
-    df = pd.DataFrame(data=ons_deaths_df.values, columns=columns_datetime, index=ons_deaths_df.index)
-    df.index.name = "age_group"
-    print(df)
-    return df
+    return ons_deaths_df
 
 
 dataframe_2020 = homog_ageranges_2020(get_data_years_2016_thru_2020(*data_filename_2020, num_value_rows=20, col_skiprows=5, value_skiprows=20))
