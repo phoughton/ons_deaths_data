@@ -1,6 +1,7 @@
 import matplotlib.animation as animation
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 # https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwales
 
@@ -50,14 +51,15 @@ def get_data_years_2016_thru_2020(filename, sheetname, **kwargs):
                                           sheet_name=sheetname,
                                           nrows=1,
                                           skiprows=kwargs["col_skiprows"],
-                                          index_col=0
-                                          )
+                                          index_col=0)
+    ons_deaths_columns_df.drop("Unnamed: 1", axis=1, inplace=True)
+    ons_deaths_df.reset_index()
+    ons_deaths_df.set_index("Deaths by age group", inplace=True)
+    ons_deaths_df.columns = ons_deaths_columns_df.columns
+    df = ons_deaths_df
 
-    df = pd.DataFrame(data=ons_deaths_df.values, columns=ons_deaths_columns_df.columns)
-    # df.where(pd.notnull(df), None, inplace=True)
-    df.rename(columns={"Unnamed: 1": 'age_group'}, inplace=True)
-    df.set_index('age_group', inplace=True)
-    print(df)
+    df.rename(index={"Deaths by age group": 'age_group'}, inplace=True)
+
     return df
 
 
@@ -74,9 +76,13 @@ def get_data_years_2010_thru_2015(filename, sheetname, **kwargs):
                                           nrows=0,
                                           skiprows=kwargs["col_skiprows"],
                                           index_col=0)
+    print(ons_deaths_columns_df.info())
 
-    df = pd.DataFrame(data=ons_deaths_df.values, columns=ons_deaths_columns_df.columns, index=ons_deaths_df.index)
-    # df.where(pd.notnull(df), None, inplace=True)
+    columns_datetime = []
+    for item in ons_deaths_columns_df.columns:
+        columns_datetime.append(pd.to_datetime(item))
+
+    df = pd.DataFrame(data=ons_deaths_df.values, columns=columns_datetime, index=ons_deaths_df.index)
     df.index.name = "age_group"
     print(df)
     return df
@@ -102,9 +108,16 @@ frames = [dataframe_2010.T, dataframe_2011.T,
           dataframe_2019.T, dataframe_2020.T]
 
 df_2010_2020 = pd.concat(frames)
-print(df_2010_2020)
-df_2010_2020["sum"] = df_2010_2020.sum(axis=1, skipna=False)
-print(df_2010_2020)
 
-df_2010_2020.plot(xlabel="Dates", ylabel="Deaths", title=f"2010 - 2020 Deaths by age group (Source: ONS)")
+df_2010_2020["Sum of all age groups"] = df_2010_2020.sum(axis=1, skipna=False)
+
+fig, ax = plt.subplots(figsize=(15, 7))
+df_2010_2020.plot(ax=ax)
+plt.suptitle("ONS Deaths by age group, 2010-2020, and sum of all age groups.")
+plt.title("(Sum of all age groups may differ slightly from actual total)")
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=6))
+
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y %b'))
+plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
+
 plt.show()
