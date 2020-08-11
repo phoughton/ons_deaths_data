@@ -12,3 +12,8 @@ The data is collated into one large dataframe and I create a sum column for all 
 (This may differ from the official published deaths as some deaths may be missing from the agre group data if the age was not known etc.)
 
 ![Graph of Deaths 2010-2020](ONS_2010_2020_deaths_by_age.png)
+
+To use, type:
+```python
+python ons_deaths.py
+```
