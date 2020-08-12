@@ -105,7 +105,7 @@ df_2010_2020["Sum of all age groups"] = df_2010_2020.sum(axis=1, skipna=False)
 
 fig, ax = plt.subplots(figsize=(15, 7))
 df_2010_2020.plot(ax=ax)
-plt.suptitle("ONS Deaths by age group, 2010-2020, and sum of all age groups.")
+plt.suptitle("Office of National Statistics (ONS) Deaths in England and Wales by age group, 2010-2020, and sum of all age groups.")
 plt.title("(Sum of all age groups may differ slightly from actual total)")
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=6))
 plt.legend(loc=2, prop={'size': 7})
